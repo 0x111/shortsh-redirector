@@ -39,9 +39,6 @@ func main() {
 	engine.ShowSQL(true)
 	engine.Logger().SetLevel(core.LOG_DEBUG)
 
-	// Sync models
-	engine.Sync2(new(models.ShortShUrl))
-
 	e := echo.New()
 
 	e.Use(middleware.RequestIDWithConfig(middleware.RequestIDConfig{}))
