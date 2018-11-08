@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/0x111/shortsh-backend/models"
+	"github.com/0x111/shortsh-redirector/utils"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
@@ -47,8 +48,9 @@ func main() {
 		shortID := c.Param("shortId")
 		var shortURL = models.Url{ShortId: shortID}
 		has, err := engine.Get(&shortURL)
+
 		if has && err == nil {
-			writeVisitorsData(engine, c, &shortURL)
+			utils.WriteVisitorsData(engine, c, &shortURL)
 			return c.Redirect(http.StatusMovedPermanently, shortURL.Url)
 		}
 

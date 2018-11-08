@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"github.com/0x111/shortsh-backend/models"
@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-func writeVisitorsData(engine *xorm.Engine, c echo.Context, urlMeta *models.Url) error {
+func WriteVisitorsData(engine *xorm.Engine, c echo.Context, urlMeta *models.Url) error {
 	ip := c.RealIP()
 
 	_, err := engine.Insert(models.Visitors{Url: urlMeta.Id, Ip: ip})
