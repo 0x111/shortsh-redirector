@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/0x111/shortsh-redirector/models"
+	"github.com/0x111/shortsh-backend/models"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
@@ -45,10 +45,10 @@ func main() {
 
 	e.GET("/:shortId", func(c echo.Context) error {
 		shortID := c.Param("shortId")
-		var shortURL = models.ShortShUrl{ShortId: shortID}
+		var shortURL = models.Url{ShortId: shortID}
 		has, err := engine.Get(&shortURL)
-		fmt.Println(has, err, shortURL)
 		if has && err == nil {
+			writeVisitorsData(engine, c, &shortURL)
 			return c.Redirect(http.StatusMovedPermanently, shortURL.Url)
 		}
 
