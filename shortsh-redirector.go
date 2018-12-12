@@ -13,6 +13,7 @@ import (
 	"log"
 	"net/http"
 	"runtime"
+	"strings"
 )
 
 var engine *xorm.Engine
@@ -46,6 +47,12 @@ func main() {
 
 	e.GET("/:shortId", func(c echo.Context) error {
 		shortID := c.Param("shortId")
+
+		// if shortID has + at the end, it means we need the stats url for the current shortid
+		if strings.HasSuffix(shortID, "+") {
+			return c.Redirect(http.StatusMovedPermanently, viper.GetString("main_site")+"/"+shortID)
+		}
+
 		var shortURL = models.Url{ShortId: shortID}
 		has, err := engine.Get(&shortURL)
 
